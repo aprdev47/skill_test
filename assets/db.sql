@@ -52,6 +52,12 @@ CREATE TABLE `employee` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Add gender column to `employee`
+--
+ALTER TABLE `employee`
+    ADD COLUMN `gender` ENUM('Male', 'Female', 'Non-binary', 'Other', 'Prefer not to say') DEFAULT NULL;
+
+--
 -- Dumping data for table `employee`
 --
 

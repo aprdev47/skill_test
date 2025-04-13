@@ -1,5 +1,7 @@
 <?php
 
+use Athul\SkillTest\models\Employee;
+
 require_once("../models/Employee.php");
 
 /**

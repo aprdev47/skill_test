@@ -1,11 +1,14 @@
 <?php
 
+namespace Athul\SkillTest\models;
+
 /**
  * Class Employee
  *
  * This model represents an employee in our system.
  */
-class Employee {
+class Employee
+{
 
     /**
      * @var bool
@@ -67,17 +70,21 @@ class Employee {
      * @return void
      * @throws Exception if we had a problem saving.
      */
-    public function save() {
+    public function save()
+    {
         $pdo = new PDO("mysql:host=localhost;dbname=test", "root");
 
         $updateId = false;
 
         if (!$this->id) {
-            $stmt = $pdo->prepare("INSERT INTO employee (`name`, `phone_number`, `type`, `email`, `password`, `email_sent`) VALUES (:name, :phone, :type, :email, :password, :email_sent)");
+            $stmt = $pdo->prepare(
+                "INSERT INTO employee (`name`, `phone_number`, `type`, `email`, `password`, `email_sent`) VALUES (:name, :phone, :type, :email, :password, :email_sent)"
+            );
             $updateId = true;
-        }
-        else {
-            $stmt = $pdo->prepare("UPDATE employee SET `name` = :name, `phone_number` = :phone ,`type` = :type, `email` = :email, `password` = :password, `email_sent` = :email_sent where id = :id");
+        } else {
+            $stmt = $pdo->prepare(
+                "UPDATE employee SET `name` = :name, `phone_number` = :phone ,`type` = :type, `email` = :email, `password` = :password, `email_sent` = :email_sent where id = :id"
+            );
             $stmt->bindParam(":id", $this->id);
         }
 
@@ -96,7 +103,6 @@ class Employee {
         if ($updateId) {
             $this->id = $pdo->lastInsertId();
         }
-
     }
 
 }
