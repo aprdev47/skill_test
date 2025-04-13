@@ -40,39 +40,42 @@
 
 <?php
 
-// DB connection
-function getDbConnection() {
-    return new mysqli("db", "root", "root", "skill_test_db");
-}
+require_once __DIR__ . '/../../config.php';
+
+use Athul\SkillTest\models\AuditLog;
+use Athul\SkillTest\models\Employee;
 
 // Add new employee
-function addEmployee($name, $gender, $phone_number, $email, $employee_type): int {
-    $dbConnection = getDbConnection();
+/**
+ * @throws Exception
+ */
+function addEmployee($name, $gender, $phone_number, $password, $email, $employee_type) :int {
+    $employee = new Employee();
 
-    $stmt = $dbConnection->prepare("INSERT INTO employee (`name`,`gender`, `phone_number`, `email`, `type`) VALUES (?, ?,?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $gender, $phone_number, $email, $employee_type);
+    $employee->name = $name;
+    $employee->gender = $gender;
+    $employee->phoneNumber = $phone_number;
+    $employee->email = $email;
+    $employee->type = $employee_type;
+    $employee->password = sha1($password); // or some default, if required
+    $employee->email_sent = false; // or true, depending on logic
 
-    if (!$stmt->execute()) {
-        die("<h2>Sorry, could not add employee: " . $stmt->error . "</h2>");
-    }
+    $employee->save();
 
-    $employeeId = $dbConnection->insert_id;
-    $stmt->close();
-
-    return $employeeId;
+    return $employee->id;
 }
 
 // Employ addition logging
 function logEmployeeAddition($name) {
-    $dbConnection = getDbConnection();
 
     $timestamp = date("d/m/y h:i:s");
-    $stmtAudit = $dbConnection->prepare("INSERT INTO audit_log (`message`) VALUES (?)");
     $message = "{$name} was added on $timestamp";
-    $stmtAudit->bind_param("s", $message);
-    $stmtAudit->execute();
 
-    $stmtAudit->close();
+    $auditLog = new AuditLog();
+
+    $auditLog->message = $message;
+
+    $auditLog->save();
 }
 
 // Send registration email
@@ -82,18 +85,14 @@ function sendRegistrationEmail($email, $name, $password) {
 
 // Function to update the employee's password and set email sent flag
 function updateEmployeePassword($employeeId, $password) {
-    $dbConnection = getDbConnection();
+    $employee = Employee::getById($employeeId);
 
-    $stmtUpdate = $dbConnection->prepare("UPDATE employee SET password = ?, email_sent = 1 WHERE id = ?");
-    $hashedPassword = sha1($password);
-    $stmtUpdate->bind_param("si", $hashedPassword, $employeeId);
-    $stmtUpdate->execute();
-
-    $stmtUpdate->close();
+    $employee->password = sha1($password);
+    $employee->save();
 }
 
 if ($_POST) {
-    $employeeId = addEmployee($_POST['name'], $_POST['gender'], $_POST['phone_number'], $_POST['email'], $_POST['employee_type']);
+    $employeeId = addEmployee($_POST['name'], $_POST['gender'], $_POST['phone_number'],$_POST['password'], $_POST['email'], $_POST['employee_type']);
 
     logEmployeeAddition($_POST['name']);
 
