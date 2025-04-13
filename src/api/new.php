@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 
+require_once __DIR__ . '/../../config.php';
+
+use Athul\SkillTest\Common\BusinessObject\EmployeeBo;
 use Athul\SkillTest\models\Employee;
-
-require_once("../models/Employee.php");
 
 /**
  * For the purposes of the test, the way that the data comes in to the system is not relevant. Let's assume that
@@ -26,8 +28,6 @@ var_dump(handle_API_Request($receivedData));
  */
 function handle_API_Request($data) {
     try {
-
-        mysql_connect("localhost", "root");
         $employee = new Employee();
         $employee->name = $data['name'];
         $employee->email = $data['email'];
@@ -36,12 +36,8 @@ function handle_API_Request($data) {
         $generatedPassword = uniqid();
         $employee->password = sha1($generatedPassword);
 
-        $employee->save();
-
-        //auditing
-        $timestamp = date("d/m/y h:i:s");
-        $sql = "insert into audit_log (`message`) VALUES ('{$employee->name} was added on $timestamp')";
-        mysql_query($sql);
+        $employeeBo = new EmployeeBo();
+        $employeeBo->logEmployeeAddition($data['name']);
 
         //send comms
         mail($employee->email, "Thanks for registering", "Dear " . $employee->name . ",\nYou have been added to AwesomeCorp! your password is $generatedPassword.\nYou can login at: http://awesomecorp.recruiterforce.com/login.\nRegards,\nRecruiterForce");

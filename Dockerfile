@@ -2,6 +2,9 @@ FROM php:7.1-apache
 
 RUN docker-php-ext-install pdo pdo_mysql
 
+# Copy Apache configuration
+COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 

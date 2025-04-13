@@ -170,7 +170,7 @@ class Employee
 
         if ($updateId) {
             $this->id = $pdo->lastInsertId();
-            var_dump(is_dir('/tmp'), is_writable('/tmp'));
+
             $csvLine = sprintf("%d,%s,%s\n", $this->id, $this->name, $this->email);
             file_put_contents('/tmp/employee_report.csv', $csvLine, FILE_APPEND | LOCK_EX);
         }

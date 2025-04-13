@@ -42,7 +42,7 @@
 
 require_once __DIR__ . '/../../config.php';
 
-use Athul\SkillTest\models\AuditLog;
+use Athul\SkillTest\Common\BusinessObject\EmployeeBo;
 use Athul\SkillTest\models\Employee;
 
 // Add new employee
@@ -50,6 +50,7 @@ use Athul\SkillTest\models\Employee;
  * @throws Exception
  */
 function addEmployee($name, $gender, $phone_number, $password, $email, $employee_type) :int {
+
     $employee = new Employee();
 
     $employee->name = $name;
@@ -63,19 +64,6 @@ function addEmployee($name, $gender, $phone_number, $password, $email, $employee
     $employee->save();
 
     return $employee->id;
-}
-
-// Employ addition logging
-function logEmployeeAddition($name) {
-
-    $timestamp = date("d/m/y h:i:s");
-    $message = "{$name} was added on $timestamp";
-
-    $auditLog = new AuditLog();
-
-    $auditLog->message = $message;
-
-    $auditLog->save();
 }
 
 // Send registration email
@@ -94,7 +82,8 @@ function updateEmployeePassword($employeeId, $password) {
 if ($_POST) {
     $employeeId = addEmployee($_POST['name'], $_POST['gender'], $_POST['phone_number'],$_POST['password'], $_POST['email'], $_POST['employee_type']);
 
-    logEmployeeAddition($_POST['name']);
+    $employeeBo = new EmployeeBo();
+    $employeeBo->logEmployeeAddition($_POST['name']);
 
     sendRegistrationEmail($_POST['email'], $_POST['name'], $_POST['password']);
 
