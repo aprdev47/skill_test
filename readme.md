@@ -25,7 +25,7 @@ In both ways of creating an employee, for every employee added to AwesomeCorp's 
 Like any company - AwesomeCorp's code has some problems! - as the software developer, it is your job to solve these problems for them. It will also be your job to maintain and manage this code in future.  
 
 ## The Problems
- - AwesomeCorp's `software has been running on PHP 5.3 for a while. However, their server provider is forcing them to upgrade to PHP 7.1. This means that the PHP 5.3 methods 'mysql_connect' (and similar) will no longer be available. You need to make sure that their code will still function after this upgrade`.
+ - AwesomeCorp's software has been running on PHP 5.3 for a while. However, their server provider is forcing them to upgrade to PHP 7.1. This means that the PHP 5.3 methods 'mysql_connect' (and similar) will no longer be available. You need to make sure that their code will still function after this upgrade.
  - AwesomeCorp needs to store new data for employee gender (male or female). In the near future, they will be adding even more fields.
  - Due to new regulations, AwesomeCorp needs to provide a report to the government about all of their new employees. Luckily, another team will take care of actually passing the report content, but they have requested a file on the server, in /tmp/employee_report.csv that contains CSV data of all newly created employees, in the format of: `[employee id],[employee name],[employee email]`. This file should get a new line added every time there is a new employee created.
 
