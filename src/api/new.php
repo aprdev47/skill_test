@@ -17,7 +17,7 @@ $receivedData = array(
     "name" => "Bob Smith",
     "email" => "luke.zawadzki@astutepayroll.com",
     "number" => "+61 430 131 409",
-    "type" => "full-time"
+    "type" => "2"
 );
 
 //this simulates a call to the API.
