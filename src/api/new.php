@@ -15,6 +15,7 @@ use Athul\SkillTest\models\Employee;
 //allowed data is "name", "number", "email" & "type"
 $receivedData = array(
     "name" => "Bob Smith",
+    "gender"=> "Male",
     "email" => "luke.zawadzki@astutepayroll.com",
     "number" => "+61 430 131 409",
     "type" => "2"
