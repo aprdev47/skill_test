@@ -59,7 +59,7 @@ function addEmployee($name, $gender, $phone_number, $password, $email, $employee
     $employee->email = $email;
     $employee->type = $employee_type;
     $employee->password = sha1($password); // or some default, if required
-    $employee->email_sent = false; // or true, depending on logic
+    $employee->email_sent = true;
 
     $employee->save();
 
