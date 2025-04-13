@@ -31,6 +31,7 @@ function handle_API_Request($data) {
     try {
         $employee = new Employee();
         $employee->name = $data['name'];
+        $employee->gender = $data['gender'];
         $employee->email = $data['email'];
         $employee->phoneNumber = $data['number'];
         $employee->type = $data['type'];
