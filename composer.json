@@ -1,0 +1,28 @@
+{
+    "config": {
+        "platform": {
+            "php": "7.1.33"
+        }
+    },
+    "name": "athul/skill_test",
+    "description": "Skill Test for Deel",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Athul\\SkillTest\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "aprdevath",
+            "email": "aprdevath@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+      "ext-mysqli": "*",
+      "ext-pdo": "*",
+      "symfony/polyfill-ctype": "v1.20.0",
+      "vlucas/phpdotenv": "^2.6"
+    }
+}
